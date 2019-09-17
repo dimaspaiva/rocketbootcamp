@@ -4,7 +4,7 @@ module.exports = {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        autoIncrement: false,
+        autoIncrement: true,
         primaryKey: true
       },
 
@@ -14,6 +14,12 @@ module.exports = {
       },
 
       email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+      },
+
+      password_hash: {
         type: Sequelize.STRING,
         allowNull: false
       },
