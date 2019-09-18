@@ -23,6 +23,4 @@ export default async (req, res, next) => {
   } catch (error) {
     return res.status(400).json({ error: 'Invalid token' })
   }
-
-  console.log(authHeader)
 }

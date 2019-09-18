@@ -5,7 +5,7 @@ import authConfig from '../../config/authConfig'
 
 class SessionCotroller {
   async store (req, res) {
-    if (!req.body.email || !req.body.password) {
+    if (!req.body.email && !req.body.password) {
       return res.status(400).json({ error: 'Validation error' })
     }
 

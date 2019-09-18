@@ -27,7 +27,7 @@ class UserController {
   }
 
   async update (req, res) {
-    if (!req.body.email || !req.body.name) {
+    if (!req.body.email) {
       return res.status(400).json({ error: 'Validation error' })
     }
 
@@ -38,17 +38,24 @@ class UserController {
     }
 
     if (req.body.password) {
-      if (!req.body.confirmPassword) {
-        return res.status(400).json({ error: 'Validatioin error' })
+      if (
+        req.body.confirmPassword !== req.body.password ||
+        !req.body.confirmPassword
+      ) {
+        return res.status(400).json({ error: 'Validation error' })
       }
 
-      if (user.checkPassword(req.body.oldPassword)) {
+      if (!(await user.checkPassword(req.body.oldPassword))) {
         return res.status(400).json({ error: 'Wrong password' })
       }
 
-      const { name, id } = await user.update(req.body)
+      if (!req.body.name) {
+        return res.status(400).json({ error: 'Validation error' })
+      }
 
-      return res.json({ name, id, message: 'Password updated' })
+      const { id, name } = await user.update(req.body)
+
+      return res.json({ id, name, message: 'Password updated' })
     }
 
     const { name, id } = await user.update(req.body)
